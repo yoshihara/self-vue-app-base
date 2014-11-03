@@ -34,6 +34,10 @@ module.exports = function (grunt) {
         files: ['bower.json'],
         tasks: ['wiredep']
       },
+      haml: {
+        files: ['<%= config.app %>/views/{,*/}*.haml'],
+        tasks: ['haml:dist', 'haml:serve']
+      },
       coffee: {
         files: ['<%= config.app %>/scripts/{,*/}*.{coffee,litcoffee,coffee.md}'],
         tasks: ['coffee:dist']
@@ -168,7 +172,33 @@ module.exports = function (grunt) {
         }]
       }
     },
-
+    haml: {
+      options: {
+        language: 'ruby'
+      },
+      serve: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= config.app %>/views',
+            src: '{,*/}*.haml',
+            dest: '.tmp/views',
+            ext: '.html'
+          }
+        ]
+      },
+      dist: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= config.app %>/views',
+            src: '{,*/}*.haml',
+            dest: 'dist',
+            ext: '.html'
+          }
+        ]
+      }
+    },
     // Compiles Sass to CSS and generates necessary files if requested
     sass: {
       options: {
@@ -363,14 +393,17 @@ module.exports = function (grunt) {
       server: [
         'sass:server',
         'coffee:dist',
+        'haml:serve',
         'copy:styles'
       ],
       test: [
         'coffee',
+        'haml',
         'copy:styles'
       ],
       dist: [
         'coffee',
+        'haml:dist',
         'sass',
         'copy:styles',
         'imagemin',
