@@ -182,7 +182,7 @@ module.exports = function (grunt) {
             expand: true,
             cwd: '<%= config.app %>/views',
             src: '{,*/}*.haml',
-            dest: '.tmp/views',
+            dest: '.tmp',
             ext: '.html'
           }
         ]
@@ -193,7 +193,7 @@ module.exports = function (grunt) {
             expand: true,
             cwd: '<%= config.app %>/views',
             src: '{,*/}*.haml',
-            dest: 'dist',
+            dest: 'app', // FIXME: app/index.html is used by some tasks, but it is intermediate file not to be remained.
             ext: '.html'
           }
         ]
